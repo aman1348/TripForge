@@ -1,14 +1,14 @@
 import React from 'react'
 import { Link, Navigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
-import { createUserAsync, selectLoggedInUser} from '../authSlice';
+import { createUserAsync, selectLoggedInUser } from '../authSlice';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 function Signup() {
-    const dispatch = useDispatch();
-    const {register, handleSubmit, watch, formState : {errors}} = useForm();
-    const user = useSelector(selectLoggedInUser);
-    console.log('user is ', user);
+  const dispatch = useDispatch();
+  const { register, handleSubmit, watch, formState: { errors } } = useForm();
+  const user = useSelector(selectLoggedInUser);
+  console.log('user is ', user);
   return (
     <>
       {user && <Navigate to='/book-trip' replace={true}></Navigate>}
@@ -34,7 +34,9 @@ function Signup() {
                     email: data.email,
                     password: data.password,
                   }
-                ))
+                ));
+
+                
               })}>
             <div>
               <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">

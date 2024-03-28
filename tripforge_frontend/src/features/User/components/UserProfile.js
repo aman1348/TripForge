@@ -15,8 +15,8 @@ export default function UserProfile() {
   console.log("user = ", user);
 
   useEffect(() => {
-    dispatch(getUserInfoAsync(user.id));
-  }, [dispatch, user.id]);
+    dispatch(getUserInfoAsync(user?.id));
+  }, [dispatch, user?.id]);
 
   return (
     <>

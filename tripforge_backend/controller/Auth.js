@@ -16,6 +16,8 @@ module.exports.createUser = async (req, res, next) => {
         const user = new User({ ...req.body, password: hashedPassword, salt });
         console.log(user);
         const doc = await user.save();
+
+        console.log(doc);
         req.login({ id: doc.id }, (err) => {
           if (err) res.status(400).json(err);
           else {
@@ -26,7 +28,7 @@ module.exports.createUser = async (req, res, next) => {
                 httpOnly: true,
               })
               .status(201)
-              .json({id : doc.id});
+              .json({ id: doc.id, email: doc.email });
           }
         });
       }
@@ -47,14 +49,15 @@ module.exports.createUser = async (req, res, next) => {
 // }
 
 module.exports.loginUser = async (req, res, next) => {
-  // const user = new User(req.body);
+  const user = new User(req.body);
+  // console.log("user : ", user);
   res
     .cookie("jwt", req.user.token, {
       expires: new Date(Date.now() + 3600000),
       httpOnly: true,
     })
     .status(201)
-    .json(req.user.token);
+    .json({token : req.user.token, email: user.email});
 };
 
 module.exports.checkAuth = async (req, res, next) => {

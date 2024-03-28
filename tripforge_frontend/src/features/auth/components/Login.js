@@ -6,6 +6,7 @@ import { loginUserAsync } from "../authSlice";
 import { checkAuthAsync, selectError, selectLoggedInUser } from "../authSlice";
 
 import { Navigate } from "react-router-dom";
+import { getUserInfoAsync } from "../../User/userSlice";
 function Login() {
   const dispatch = useDispatch();
   useEffect(() => {
@@ -13,6 +14,14 @@ function Login() {
   }, [dispatch]);
   const error = useSelector(selectError);
   const user = useSelector(selectLoggedInUser);
+  const isUserLoggedin = !!useSelector(selectLoggedInUser);
+  useEffect(() => {
+    if (isUserLoggedin) {
+      dispatch(getUserInfoAsync(user.email));
+    }
+  }, [isUserLoggedin]);
+
+  // console.log("is user logged in", isUserLoggedin);
   console.log("user is ", user);
   const {
     register,
@@ -41,12 +50,12 @@ function Login() {
             onSubmit={handleSubmit((data) => {
               console.log("data is ", data);
 
-                dispatch(
-                  loginUserAsync({
-                    email: data.email,
-                    password: data.password,
-                  })
-                );
+              dispatch(
+                loginUserAsync({
+                  email: data.email,
+                  password: data.password,
+                })
+              );
 
             })}
           >

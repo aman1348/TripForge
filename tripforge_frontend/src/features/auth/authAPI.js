@@ -6,12 +6,14 @@ export function createUser(userData) {
       headers: { "content-type": "application/json" },
     });
     const data = await response.json();
-    console.log('data is ', data);
+    // console.log('registered data is ', data);
+
     resolve({ data });
   });
 }
 
 export function loginUser(loginInfo) {
+  // console.log("login info ", loginInfo);
   return new Promise(async (resolve, reject) => {
     try {
       const response = await fetch("http://localhost:5000/users/login", {
@@ -19,13 +21,14 @@ export function loginUser(loginInfo) {
         body: JSON.stringify(loginInfo),
         headers: { "content-type": "application/json" },
       });
-      if(response.ok) {
+      if (response.ok) {
 
-          const data = await response.json();
-          resolve({ data });
+        const data = await response.json();
+        // console.log("login data ", data);
+        resolve({ data });
       } else {
         const err = await response.json();
-        reject({err});
+        reject({ err });
       }
 
     } catch (err) {
@@ -37,13 +40,13 @@ export function checkAuth() {
   return new Promise(async (resolve, reject) => {
     try {
       const response = await fetch("http://localhost:5000/users/check");
-      if(response.ok) {
+      if (response.ok) {
 
-          const data = await response.json();
-          resolve({ data });
+        const data = await response.json();
+        resolve({ data });
       } else {
         const err = await response.json();
-        reject({err});
+        reject({ err });
       }
 
     } catch (err) {

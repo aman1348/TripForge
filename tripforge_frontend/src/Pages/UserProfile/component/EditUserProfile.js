@@ -1,21 +1,34 @@
 import { useState } from "react";
-import DatePicker from "../../../Components/DatePicker";
-import { dateString } from "../../../helpers";
+import { useDispatch, useSelector } from "react-redux";
+import { selectUserDetails, updateUserInfoAsync } from "../../../features/User/userSlice";
 
 
 
 function EditUserProfile({ isEditing, setIsEditing }) {
+    const userDetails = useSelector(selectUserDetails);
+    const dispatch = useDispatch();
 
-    const [date, setDate] = useState(null);
 
     const saveUserDetails = (e) => {
         e.preventDefault();
-        console.log(e.target.firstName.value);
-        console.log(e.target.lastName.value);
-        console.log(e.target.gender.value);
-        console.log(e.target.phone.value);
-        console.log(e.target.address.value);
-        console.log(dateString(date));
+        const newDetails = {
+            firstName: e.target.firstName.value,
+            lastName: e.target.lastName.value,
+            gender: e.target.gender.value,
+            contact: e.target.phone.value,
+            address: e.target.address.value
+        }
+        // console.log(e.target.firstName.value);
+        // console.log(e.target.lastName.value);
+        // console.log(e.target.gender.value);
+        // console.log(e.target.phone.value);
+        // console.log(e.target.address.value);
+
+        const newUserDetails = { ...userDetails, ...newDetails };
+        console.log("edited user details", newUserDetails);
+        
+        dispatch(updateUserInfoAsync(newUserDetails));
+
 
 
 
@@ -46,19 +59,19 @@ function EditUserProfile({ isEditing, setIsEditing }) {
                 <div className="grid md:grid-cols-2 text-sm">
                     <div className="grid grid-cols-2">
                         <label for="first_name" className="px-4 py-2 font-semibold">First Name</label>
-                        <input id="first_name" type="text" name="firstName" className="py-0" />
+                        <input id="first_name" type="text" name="firstName" className="py-0" defaultValue={userDetails?.firstName} />
                     </div>
                     <div className="grid grid-cols-2">
                         <label for="last_name" className="px-4 py-2 font-semibold">Last Name</label>
-                        <input id="last_name" type="text" name="lastName" className="py-0" />
+                        <input id="last_name" type="text" name="lastName" className="py-0"  defaultValue={userDetails?.lastName} />
                     </div>
                     <div className="grid grid-cols-2">
                         <label className="px-4 py-2 font-semibold">Gender</label>
                         {/* <div className="px-4 py-2">Female</div> */}
                         <select class="form-select block w-full mt-1" name="gender">
                             <option value="" selected disabled hidden>Choose gender</option>
-                            <option value="male">male</option>
-                            <option value="female">female</option>
+                            <option selected={userDetails?.gender === "male"} value="male">male</option>
+                            <option selected={userDetails?.gender === "female"} value="female">female</option>
                         </select>
                     </div>
                     <div className="grid grid-cols-2">
@@ -70,12 +83,14 @@ function EditUserProfile({ isEditing, setIsEditing }) {
                             aria-describedby="helper-text-explanation"
                             className="py-0"
                             // pattern="[7-9]{3}[0-9]{3}[0-9]{4}"
-                            placeholder="123-456-7890" />
+                            placeholder="123-456-7890"
+                            defaultValue={userDetails?.contact}
+                        />
 
                     </div>
                     <div className="grid grid-cols-2">
                         <label for="address" className="px-4 py-2 font-semibold">Address</label>
-                        <input id="address" type="text" name="address" className="py-0" />
+                        <input id="address" type="text" name="address" className="py-0" defaultValue={userDetails?.address} />
                     </div>
                     {/* <div className="grid grid-cols-2">
                         <div className="px-4 py-2 font-semibold">Permanant Address</div>
@@ -84,14 +99,14 @@ function EditUserProfile({ isEditing, setIsEditing }) {
                     <div className="grid grid-cols-2">
                         <div className="px-4 py-2 font-semibold">Email.</div>
                         <div className="px-4 py-2">
-                            <a className="text-blue-800" href="mailto:jane@example.com">jane@example.com</a>
+                            <a className="text-blue-800" href="mailto:jane@example.com">{userDetails?.email}</a>
                         </div>
                     </div>
-                    <div className="grid grid-cols-2">
+                    {/* <div className="grid grid-cols-2">
                         <label className="px-4 py-2 font-semibold">Date of Birth</label>
-                        {/* <div className="px-4 py-2">Feb 06, 1998</div> */}
+                        <div className="px-4 py-2">Feb 06, 1998</div> 
                         <DatePicker date={date} setDate={setDate} name="date" label="select date"></DatePicker>
-                    </div>
+                    </div>  */}
                 </div>
             </div>
             <div className="grid md:grid-cols-2 text-sm">

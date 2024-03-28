@@ -21,13 +21,13 @@ import {
   selectUserChecked,
 } from "./features/auth/authSlice";
 import UserDetails from "./features/User/components/UserDetails";
-import UserProfile from "./features/User/components/UserProfile";
 import { useEffect } from "react";
 import UserProfile from "./Pages/UserProfile"
+
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <UserProfile/>,
+    element: <Starter />,
   },
   {
     path: "/starter",
@@ -43,7 +43,9 @@ const router = createBrowserRouter([
   },
   {
     path: "/user-profile",
-    element: <UserProfile></UserProfile>
+    element: (<Protected>
+      <UserProfile></UserProfile>
+    </Protected>)
   },
   {
     path: "/login",

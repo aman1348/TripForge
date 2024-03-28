@@ -2,13 +2,16 @@ const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
 const userInfoSchema = Schema({
-
-  name : {type : String},
-  email: {type: String},
-  country : {type : String},
-  streetAddress : {type : String},
-  city : {type : String},
-  state : {type : String},
+  firstName: { type: String },
+  lastName: { type: String },
+  email: {
+    type: String,
+    required: true,
+    unique: true
+  },
+  gender: { type: String },
+  contact: { type: String },
+  address: { type: String },
 });
 
 const virtual = userInfoSchema.virtual("id");

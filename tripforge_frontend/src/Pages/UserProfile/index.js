@@ -1,14 +1,23 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import Footer from "../../Components/ProfileFooter";
 import Navbar from "../../Components/Navbar";
 import EditUserProfile from "./component/EditUserProfile";
+import { useSelector } from "react-redux";
+import { selectLoggedInUser } from "../../features/auth/authSlice";
+import { selectUserDetails } from "../../features/User/userSlice";
 
 export default function UserProfile() {
     const [isEditing, setIsEditing] = useState(false);
+    const userDetails = useSelector(selectUserDetails);
+
+
+
 
 
     // get datails of user from server
+
+
 
     return (
         <>
@@ -44,23 +53,23 @@ export default function UserProfile() {
                                         <div className="grid md:grid-cols-2 text-sm">
                                             <div className="grid grid-cols-2">
                                                 <div className="px-4 py-2 font-semibold">First Name</div>
-                                                <div className="px-4 py-2">Jane</div>
+                                                <div className="px-4 py-2">{userDetails?.firstName}</div>
                                             </div>
                                             <div className="grid grid-cols-2">
                                                 <div className="px-4 py-2 font-semibold">Last Name</div>
-                                                <div className="px-4 py-2">Doe</div>
+                                                <div className="px-4 py-2">{userDetails?.lastName}</div>
                                             </div>
                                             <div className="grid grid-cols-2">
                                                 <div className="px-4 py-2 font-semibold">Gender</div>
-                                                <div className="px-4 py-2">Female</div>
+                                                <div className="px-4 py-2">{userDetails?.gender}</div>
                                             </div>
                                             <div className="grid grid-cols-2">
                                                 <div className="px-4 py-2 font-semibold">Contact No.</div>
-                                                <div className="px-4 py-2">+11 998001001</div>
+                                                <div className="px-4 py-2">{userDetails?.contact}</div>
                                             </div>
                                             <div className="grid grid-cols-2">
                                                 <div className="px-4 py-2 font-semibold">Address</div>
-                                                <div className="px-4 py-2">Beech Creek, PA, Pennsylvania</div>
+                                                <div className="px-4 py-2">{userDetails?.address}</div>
                                             </div>
                                             {/* <div className="grid grid-cols-2">
                                                 <div className="px-4 py-2 font-semibold">Permanant Address</div>
@@ -69,13 +78,13 @@ export default function UserProfile() {
                                             <div className="grid grid-cols-2">
                                                 <div className="px-4 py-2 font-semibold">Email.</div>
                                                 <div className="px-4 py-2">
-                                                    <a className="text-blue-800" href="mailto:jane@example.com">jane@example.com</a>
+                                                    <a className="text-blue-800" href="mailto:jane@example.com">{userDetails?.email}</a>
                                                 </div>
                                             </div>
-                                            <div className="grid grid-cols-2">
+                                            {/* <div className="grid grid-cols-2">
                                                 <div className="px-4 py-2 font-semibold">Date of Birth</div>
                                                 <div className="px-4 py-2">Feb 06, 1998</div>
-                                            </div>
+                                            </div> */}
                                         </div>
                                     </div>
                                     <button
