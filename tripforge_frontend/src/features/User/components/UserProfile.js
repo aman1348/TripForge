@@ -9,14 +9,14 @@ import {
 } from "../userSlice";
 
 export default function UserProfile() {
-  const dispatch = useDispatch();
-  const user = useSelector(selectUserInfo);
-  const details = useSelector(selectUserDetails);
-  console.log("user = ", user);
+  // const dispatch = useDispatch();
+  // const user = useSelector(selectUserInfo);
+  // const details = useSelector(selectUserDetails);
+  // console.log("user = ", user);
 
-  useEffect(() => {
-    dispatch(getUserInfoAsync(user?.id));
-  }, [dispatch, user?.id]);
+  // useEffect(() => {
+  //   dispatch(getUserInfoAsync(user?.id));
+  // }, [dispatch, user?.id]);
 
   return (
     <>
@@ -51,15 +51,15 @@ export default function UserProfile() {
                   <div className="grid md:grid-cols-2 text-sm">
                     <div className="grid grid-cols-2">
                       <div className="px-4 py-2 font-semibold">Name</div>
-                      <div className="px-4 py-2">{details.name}</div>
+                      <div className="px-4 py-2"></div>
                     </div>
                     <div className="grid grid-cols-2">
                       <div className="px-4 py-2 font-semibold">Gender</div>
-                      <div className="px-4 py-2">{details.gender}</div>
+                      <div className="px-4 py-2"></div>
                     </div>
                     <div className="grid grid-cols-2">
                       <div className="px-4 py-2 font-semibold">Contact No.</div>
-                      <div className="px-4 py-2">{details.phone}</div>
+                      <div className="px-4 py-2"></div>
                     </div>
                     {/* <div className="grid grid-cols-2">
                       <div className="px-4 py-2 font-semibold">
@@ -78,13 +78,13 @@ export default function UserProfile() {
                       </div>
                     </div> */}
                     <div className="grid grid-cols-2">
-                      <div className="px-4 py-2 font-semibold">Email.</div>
+                      <div className="px-4 py-2 font-semibold">Email</div>
                       <div className="px-4 py-2">
                         <a
                           className="text-blue-800"
                           href="mailto:jane@example.com"
                         >
-                          {details.email}
+                     
                         </a>
                       </div>
                     </div>
