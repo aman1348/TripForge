@@ -12,7 +12,6 @@ export default function UserProfile() {
   // const dispatch = useDispatch();
   // const user = useSelector(selectUserInfo);
   // const details = useSelector(selectUserDetails);
-  // console.log("user = ", user);
 
   // useEffect(() => {
   //   dispatch(getUserInfoAsync(user?.id));
@@ -84,7 +83,7 @@ export default function UserProfile() {
                           className="text-blue-800"
                           href="mailto:jane@example.com"
                         >
-                     
+
                         </a>
                       </div>
                     </div>

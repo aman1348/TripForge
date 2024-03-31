@@ -25,7 +25,7 @@ function EditUserProfile({ isEditing, setIsEditing }) {
         // console.log(e.target.address.value);
 
         const newUserDetails = { ...userDetails, ...newDetails };
-        console.log("edited user details", newUserDetails);
+        // console.log("edited user details", newUserDetails);
         
         dispatch(updateUserInfoAsync(newUserDetails));
 

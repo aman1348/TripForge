@@ -6,9 +6,8 @@ import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 function Signup() {
   const dispatch = useDispatch();
-  const { register, handleSubmit, watch, formState: { errors } } = useForm();
+  const { register, handleSubmit,  formState: { errors } } = useForm();
   const user = useSelector(selectLoggedInUser);
-  console.log('user is ', user);
   return (
     <>
       {user && <Navigate to='/book-trip' replace={true}></Navigate>}
@@ -28,7 +27,6 @@ function Signup() {
           <form noValidate className="space-y-6"
             onSubmit={
               handleSubmit((data) => {
-                console.log("data is ", data);
                 dispatch(createUserAsync(
                   {
                     email: data.email,
@@ -36,7 +34,7 @@ function Signup() {
                   }
                 ));
 
-                
+
               })}>
             <div>
               <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
@@ -106,7 +104,7 @@ function Signup() {
                     validate: (value, formValues) => value === formValues.password || 'password not matching'
                   })
                   }
-                  type="confirm-password"
+                  type="password"
 
 
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"

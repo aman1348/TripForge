@@ -5,7 +5,6 @@ import { getPlaces, } from "../../api";
 import { useEffect, useState } from "react";
 import { setTripCoordinates } from "../../redux/Slices/TripCoordinateSlice";
 import Navbar from "../../Components/Navbar";
-import { selectLoggedInUser, selectUserChecked } from "../../features/auth/authSlice";
 
 // const defaultBounds = {
 //   ne: {

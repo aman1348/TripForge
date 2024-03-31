@@ -21,8 +21,6 @@ function Login() {
     }
   }, [isUserLoggedin]);
 
-  // console.log("is user logged in", isUserLoggedin);
-  console.log("user is ", user);
   const {
     register,
     handleSubmit,
@@ -48,7 +46,6 @@ function Login() {
             noValidate
             className="space-y-6"
             onSubmit={handleSubmit((data) => {
-              console.log("data is ", data);
 
               dispatch(
                 loginUserAsync({

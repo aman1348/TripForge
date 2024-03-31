@@ -1,10 +1,19 @@
 const { User } = require("../models/User");
 const crypto = require("crypto");
+const { response } = require("express");
 const jwt = require("jsonwebtoken");
 const SECRET_KEY = "SECRET_KEY";
+
+
 module.exports.createUser = async (req, res, next) => {
-  // const user = new User(req.body);
+  const user = new User(req.body);
+  const myuser = await User.find({ email: user.email });
+
   try {
+    if (myuser.length != 0) {
+      throw new Error("user already registered")
+    }
+
     const salt = crypto.randomBytes(16);
     crypto.pbkdf2(
       req.body.password,
@@ -14,10 +23,10 @@ module.exports.createUser = async (req, res, next) => {
       "sha256",
       async function (err, hashedPassword) {
         const user = new User({ ...req.body, password: hashedPassword, salt });
-        console.log(user);
+        // console.log(user);
         const doc = await user.save();
 
-        console.log(doc);
+        // console.log(doc);
         req.login({ id: doc.id }, (err) => {
           if (err) res.status(400).json(err);
           else {
@@ -33,7 +42,9 @@ module.exports.createUser = async (req, res, next) => {
         });
       }
     );
+
   } catch (err) {
+    console.log("throwing error in create user")
     res.status(400).json(err);
   }
 };
@@ -57,7 +68,7 @@ module.exports.loginUser = async (req, res, next) => {
       httpOnly: true,
     })
     .status(201)
-    .json({token : req.user.token, email: user.email});
+    .json({ token: req.user.token, email: user.email });
 };
 
 module.exports.checkAuth = async (req, res, next) => {

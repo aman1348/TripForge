@@ -71,8 +71,8 @@ function App() {
     dispatch(checkAuthAsync());
   }, dispatch)
   const user = useSelector(selectLoggedInUser);
-  const checkedUser = useSelector(selectUserChecked);
-  console.log('checked user is ', checkedUser);
+  // const checkedUser = useSelector(selectUserChecked);
+  // // console.log('checked user is ', checkedUser);
   return (
     <div>
 

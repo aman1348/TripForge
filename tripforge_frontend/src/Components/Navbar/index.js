@@ -4,7 +4,7 @@ import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { Autocomplete } from "@react-google-maps/api";
 import { useDispatch, useSelector } from "react-redux";
 import { setTripCoordinates } from "../../redux/Slices/TripCoordinateSlice"
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { selectLoggedInUser } from "../../features/auth/authSlice";
 // import { Navigate } from "react-router-dom";
 const navigation = [
@@ -23,6 +23,7 @@ export default function Navbar() {
   const [autocomplete, setAutocomplete] = useState(null);
   const dispatch = useDispatch();
   const isUserLoggedin = useSelector(selectLoggedInUser);
+  const navigate = useNavigate();
 
 
 
@@ -32,7 +33,9 @@ export default function Navbar() {
     const lat = autocomplete.getPlace().geometry.location.lat();
     const lng = autocomplete.getPlace().geometry.location.lng();
     // setCoordinates({ lat: lat, lng: lng });
+
     dispatch(setTripCoordinates({ lat: lat, lng: lng }));
+    navigate("/book-trip");
 
   }
 

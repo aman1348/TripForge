@@ -6,14 +6,12 @@ export function createUser(userData) {
       headers: { "content-type": "application/json" },
     });
     const data = await response.json();
-    // console.log('registered data is ', data);
 
     resolve({ data });
   });
 }
 
 export function loginUser(loginInfo) {
-  // console.log("login info ", loginInfo);
   return new Promise(async (resolve, reject) => {
     try {
       const response = await fetch("http://localhost:5000/users/login", {
@@ -24,7 +22,6 @@ export function loginUser(loginInfo) {
       if (response.ok) {
 
         const data = await response.json();
-        // console.log("login data ", data);
         resolve({ data });
       } else {
         const err = await response.json();

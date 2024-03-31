@@ -54,7 +54,6 @@ export const userSlice = createSlice({
             })
             .addCase(updateUserInfoAsync.fulfilled, (state, action) => {
                 state.status = 'idle';
-                console.log("new user info : ", action.payload);
                 state.userDetails = action.payload;
             })
             .addCase(getUserInfoAsync.pending, (state) => {
@@ -63,7 +62,6 @@ export const userSlice = createSlice({
             .addCase(getUserInfoAsync.fulfilled, (state, action) => {
                 state.status = 'idle';
                 // state.userInfo = action.payload;
-                console.log("userdetails : ", action.payload[0]);
                 state.userDetails = action.payload[0];
             })
 

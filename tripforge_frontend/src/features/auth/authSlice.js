@@ -1,9 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 import { createUser, loginUser, signOut, checkAuth } from "./authAPI";
-import { createUserInfo } from "../User/userAPI";
 import { getUserInfoAsync } from "../User/userSlice";
-import { useDispatch } from "react-redux";
 
 
 const initialState = {
@@ -17,7 +15,6 @@ export const createUserAsync = createAsyncThunk(
     'user/createUser',
     async (userData) => {
         const response = await createUser(userData);
-        console.log("regirtered response", response.data);
         return response.data;
     }
 )
@@ -41,7 +38,7 @@ export const checkAuthAsync = createAsyncThunk(
             const response = await checkAuth();
             return response.data;
         } catch (error) {
-            console.log(error);
+            // console.log(error);
         }
     }
 )
@@ -65,14 +62,19 @@ export const authSlice = createSlice({
             })
             .addCase(createUserAsync.fulfilled, (state, action) => {
                 state.status = 'idle';
-                state.loggedInUser = action.payload;
 
+                if (typeof action.payload.email === "undefined") {
+                    alert("registered user");
+                }
+                else {
+                    state.loggedInUser = action.payload;
 
-                fetch("http://localhost:5000/userInfo/add-info", {
-                    method: "POST",
-                    body: JSON.stringify({ email: action.payload.email }),
-                    headers: { "content-type": "application/json" },
-                });
+                    fetch("http://localhost:5000/userInfo/add-info", {
+                        method: "POST",
+                        body: JSON.stringify({ email: action.payload.email }),
+                        headers: { "content-type": "application/json" },
+                    });
+                }
 
             })
             .addCase(loginUserAsync.pending, (state) => {
@@ -80,7 +82,6 @@ export const authSlice = createSlice({
             })
             .addCase(loginUserAsync.fulfilled, (state, action) => {
                 state.status = 'idle';
-                console.log("login payload ", action.payload);
 
                 getUserInfoAsync({ email: action.payload.email });
 
@@ -106,7 +107,6 @@ export const authSlice = createSlice({
                 state.status = 'idle';
                 state.loggedInUser = action.payload;
                 state.userChecked = true;
-                console.log('fulfilled');
             })
             .addCase(checkAuthAsync.rejected, (state, action) => {
                 state.status = 'idle';
