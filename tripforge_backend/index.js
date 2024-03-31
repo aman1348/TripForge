@@ -18,6 +18,9 @@ const cookieParser = require("cookie-parser");
 const passport = require("passport");
 const { User } = require('./models/User');
 const { cookieExtractor } = require("./services/common");
+
+const path = require("path");
+
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
 
@@ -130,6 +133,30 @@ const PORT = process.env.PORT;
 function isAuth(req, res, done) {
   return passport.authenticate('jwt');
 }
+
+// ===========deployment==========
+
+const __dirname1 = path.resolve();
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(path.join(__dirname1, "tripforge_frontend/build")));
+  app.get("*", (req, res) => {
+    res.sendFile(path.resolve(__dirname1, "tripforge_frontend", "build", "index.html"));
+  })
+}
+else {
+  app.get("/", (req, res) => {
+    res.status(200).json({
+      success: true,
+      message: "Api Running SuccessFully"
+    })
+  })
+}
+
+
+
+
+// ===============================
+
 app.listen(PORT || 4000, () => {
   console.log(`Server started at ${PORT}`);
 });
