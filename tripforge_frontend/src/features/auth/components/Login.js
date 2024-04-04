@@ -26,6 +26,8 @@ function Login() {
     handleSubmit,
     formState: { errors },
   } = useForm();
+
+
   return (
     <>
       {user && <Navigate to="/book-trip" replace={true}></Navigate>}

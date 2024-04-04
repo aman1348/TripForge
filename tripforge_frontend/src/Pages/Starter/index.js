@@ -3,26 +3,21 @@
 
 import { useState } from "react";
 import { Dialog } from "@headlessui/react";
-import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
+import { XMarkIcon } from "@heroicons/react/24/outline";
 import "./starter.css";
 import Footer from "../../Components/Footer";
 import { Link } from "react-router-dom";
 import Reviews from "../../Components/Reviews";
 import StarterFeatures from "../../Components/StarterFeatures";
 import Navbar from "../../Components/Navbar";
-// const navigation = [
-//   { name: 'Product', href: '#' },
-//   { name: 'Features', href: '#' },
-//   { name: 'Marketplace', href: '#' },
-//   { name: 'Company', href: '#' },
-// ]
+
 
 export default function Starter() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
     <>
-    <Navbar ></Navbar>
+      <Navbar ></Navbar>
       <div>
         <div className="bg-white">
           <header className="absolute inset-x-0 top-0 z-50">
