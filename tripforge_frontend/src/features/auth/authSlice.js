@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
-import { createUser, loginUser, signOut, checkAuth, get_otp } from "./authAPI";
+import { createUser, loginUser, signOut, checkAuth, get_otp, verifyOTP, updatePassword } from "./authAPI";
 import { getUserInfoAsync } from "../User/userSlice";
 
 
@@ -39,6 +39,34 @@ export const getOtpAsync = createAsyncThunk(
         try {
 
             const response = await get_otp(user_info);
+
+            return response.data;
+        } catch (error) {
+            return rejectWithValue(error);
+        }
+    }
+)
+
+export const verifyOTPAsync = createAsyncThunk(
+    'user/verifyotp',
+    async (user_info, { rejectWithValue }) => {
+        try {
+
+            const response = await verifyOTP(user_info);
+
+            return response.data;
+        } catch (error) {
+            return rejectWithValue(error);
+        }
+    }
+)
+
+export const updatePasswordAsync = createAsyncThunk(
+    'user/update-password',
+    async (user_info, { rejectWithValue }) => {
+        try {
+
+            const response = await updatePassword(user_info);
 
             return response.data;
         } catch (error) {
@@ -111,6 +139,34 @@ export const authSlice = createSlice({
                 // LOGIN 
                 state.status = 'idle';
                 state.error = action.payload;
+            })
+            .addCase(verifyOTPAsync.pending, (state) => {
+                // verify OTP
+                state.status = 'loading';
+            })
+            .addCase(verifyOTPAsync.fulfilled, (state) => {
+                // verify OTP
+                state.status = 'idle';
+            })
+            .addCase(verifyOTPAsync.rejected, (state, action) => {
+                // verify OTP
+                state.status = 'idle';
+                state.error = action.payload;
+                state.response_status = 404;
+            })
+            .addCase(updatePasswordAsync.pending, (state) => {
+                // update password
+                state.status = 'loading';
+            })
+            .addCase(updatePasswordAsync.fulfilled, (state) => {
+                // update password
+                state.status = 'idle';
+            })
+            .addCase(updatePasswordAsync.rejected, (state, action) => {
+                // update password
+                state.status = 'idle';
+                state.error = action.payload;
+                state.response_status = 404;
             })
             .addCase(getOtpAsync.pending, (state) => {
                 // GET OTP

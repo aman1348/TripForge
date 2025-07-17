@@ -17,6 +17,8 @@ import {
 } from "./features/auth/authSlice";
 import { useEffect } from "react";
 import UserProfile from "./Pages/UserProfile"
+import OTPPage from "./Pages/OTPPage";
+import UpdatePasswordPage from "./Pages/UpdatePasswordPage";
 
 const router = createBrowserRouter([
   {
@@ -57,6 +59,14 @@ const router = createBrowserRouter([
     path: "/forgot-password",
     element: <ForgotPasswordPage></ForgotPasswordPage>,
   },
+  {
+    path: "/otp",
+    element: <OTPPage></OTPPage>
+  },
+  {
+    path: "/update-password",
+    element: <UpdatePasswordPage></UpdatePasswordPage>
+  }
 ]);
 
 function App() {

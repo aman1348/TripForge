@@ -1,28 +1,44 @@
 import React from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
+import { verifyOTPAsync } from "../authSlice";
 import { useDispatch } from "react-redux";
-import { getOtpAsync } from "../authSlice";
-function ForgotPassword() {
+// import { Navigate } from "react-router-dom";
+// import { getOtpAsync } from "../authSlice";
+function OTP() {
   const { register, handleSubmit, watch, formState: { errors } } = useForm();
+  const location = useLocation();
+  const email = location.state || {};
   const dispatch = useDispatch();
   const navigate = useNavigate();
   // const otp_res = useSelector((state) => state.auth)
-  const submit = (data) => {
-    console.log("data is ", data);
-    dispatch(
-      getOtpAsync({
-        email: data.email,
+  const submit = async (data) => {
+    console.log("otp is ", data);
+    console.log("email : ", email);
+    if(data.otp.length !== 6) {
+      console.warn("invalid otp");
+      return;
+    }
+    const response = await dispatch(
+      verifyOTPAsync({
+        otp: data.otp,
+        email: email.email
       })
     );
-    // move to otp
-    navigate('/otp', {
-      state: {
-        email: data.email,
-      },
-    });
-
-
+    console.log("verification response : ", response.payload.token);
+    
+    if(response?.meta?.requestStatus === "fulfilled") {
+      console.log("otp verified");
+      navigate('/update-password', {
+        state: {
+          token: response.payload.token,
+        },
+      });
+    }
+    else {
+      console.log(response?.payload?.err?.message);
+      console.warn("inavlid OTP!");      
+    }
   }
 
   return (
@@ -36,7 +52,7 @@ function ForgotPassword() {
             alt="Your Company"
           />
           <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
-            Enter Email to reset your password
+            Enter OTP Sent to Your Email
           </h2>
         </div>
 
@@ -49,26 +65,32 @@ function ForgotPassword() {
                 htmlFor="email"
                 className="block text-sm font-medium leading-6 text-gray-900"
               >
-                Email address
+                OTP
               </label>
               <div className="mt-2">
                 <input
-
-                  id="email"
+                  id="otp"
                   {
-                  ...register('email', {
-                    required: "email is required",
-                    pattern: {
-                      value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-                      message: "Please enter a valid email address",
-                    },
-                  })
-                  }
-                  type="email"
-
+                    ...register('otp', {
+                        required : "otp is required",
+                        pattern : {
+                            value : /^\d{6}$/,
+                            message : 'OTP is not valid',
+                        },
+                    })
+                }
+                  type="text"
+                  inputMode="numeric"         // mobile keyboard = numbers
+                  pattern="[0-9]*"            // prevents non-numeric characters
+                  onKeyDown={(e) => {
+                    const allowedKeys = ['Backspace', 'ArrowLeft', 'ArrowRight', 'Tab'];
+                    if (!/[0-9]/.test(e.key) && !allowedKeys.includes(e.key)) {
+                      e.preventDefault();
+                    }
+                  }}
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
-                {errors.email  && <p className='text-red-500 text-sm'>{errors.email.message}</p>}
+                {errors.otp && <p className='text-red-500 text-sm'>{errors.otp.message}</p>}
               </div>
             </div>
 
@@ -78,7 +100,7 @@ function ForgotPassword() {
                 type="submit"
                 className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
               >
-                Send email
+                verify otp
               </button>
             </div>
           </form>
@@ -98,4 +120,4 @@ function ForgotPassword() {
   );
 }
 
-export default ForgotPassword;
+export default OTP;
