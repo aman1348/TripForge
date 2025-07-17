@@ -1,10 +1,12 @@
 import React from 'react'
 import Signup from '../../features/auth/components/Signup'
+import Navbar from '../../Components/Navbar'
 function SignupPage() {
   return (
-    <div>
+    <>
+      <Navbar></Navbar>
       <Signup></Signup>
-    </div>
+    </>
   )
 }
 

@@ -33,6 +33,32 @@ export function loginUser(loginInfo) {
     }
   });
 }
+
+export function get_otp(user_data) {
+  return new Promise(async (resolve, reject) => {
+    try {
+      console.log("sending request to get otp");
+      const response = await fetch("http://localhost:5000/users/request-otp", {
+        method: "POST",
+        body: JSON.stringify(user_data),
+        headers: { "content-type": "application/json" },
+      });
+      if (response.ok) {
+
+        const data = await response.json();
+        resolve({ data });
+      } else {
+        const err = await response.json();
+        reject({ err });
+      }
+
+    } catch (err) {
+      reject({ err });
+    }
+  });
+}
+
+
 export function checkAuth() {
   return new Promise(async (resolve, reject) => {
     try {

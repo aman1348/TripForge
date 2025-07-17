@@ -1,4 +1,4 @@
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useRef, useState } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { Autocomplete } from "@react-google-maps/api";
@@ -21,6 +21,7 @@ function classNames(...classes) {
 export default function Navbar() {
 
   const [autocomplete, setAutocomplete] = useState(null);
+  const inputRef = useRef(null);
   const dispatch = useDispatch();
   const isUserLoggedin = useSelector(selectLoggedInUser);
   const navigate = useNavigate();
@@ -30,14 +31,45 @@ export default function Navbar() {
   const onLoad = (autoC) => (setAutocomplete(autoC));
 
   const onPlaceChange = () => {
-    const lat = autocomplete.getPlace().geometry.location.lat();
-    const lng = autocomplete.getPlace().geometry.location.lng();
-    // setCoordinates({ lat: lat, lng: lng });
+    try {
+      const lat = autocomplete.getPlace().geometry.location.lat();
+      const lng = autocomplete.getPlace().geometry.location.lng();
+      // setCoordinates({ lat: lat, lng: lng });
+      console.log("address : ", autocomplete.getPlace().formatted_address);
 
-    dispatch(setTripCoordinates({ lat: lat, lng: lng }));
-    navigate("/book-trip");
+      dispatch(setTripCoordinates({ lat: lat, lng: lng }));
+      navigate("/book-trip");
+    }
+    catch (e) {
+      console.warn("Place not properly selected");
+    }
 
   }
+
+  useEffect(() => {
+    try {
+      const input = inputRef.current;
+      const handleKeyDown = (e) => {
+        if (e.key === "Enter") {
+          // simulate ArrowDown to select first suggestion
+          const downArrow = new KeyboardEvent("keydown", {
+            key: "ArrowDown",
+            code: "ArrowDown",
+            keyCode: 40,
+            which: 40,
+            bubbles: true,
+          });
+          input.dispatchEvent(downArrow);
+        }
+      };
+
+      input.addEventListener("keydown", handleKeyDown);
+      return () => input.removeEventListener("keydown", handleKeyDown);
+    }
+    catch (e) {
+
+    }
+  }, []);
 
   return (
     <>
@@ -63,7 +95,7 @@ export default function Navbar() {
                   <div className="flex flex-shrink-0 items-center">
                     <img
                       className="h-8 w-auto"
-                      src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
+                      src="https://i0.wp.com/tripforgeai.com/wp-content/uploads/2025/06/tripforgeai-logo-square.png?fit=300%2C300&ssl=1"
                       alt="Your Company"
                     />
                   </div>
@@ -99,6 +131,7 @@ export default function Navbar() {
                             <div className="relative">
                               <input
                                 type="text"
+                                ref={inputRef}
                                 className="p-2 pl-8 rounded border border-gray-200 bg-gray-200 focus:bg-white focus:outline-none focus:ring-2 focus:ring-yellow-600 focus:border-transparent"
                                 placeholder="Search..."
                               />
@@ -122,13 +155,12 @@ export default function Navbar() {
                             </div>
                           </div>
                         </div>
-
                       </Autocomplete>
 
                       {/* notification button */}
                       <button
                         type="button"
-                        className="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
+                        className="relative rounded-full ml-3 bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
                       >
                         <span className="absolute -inset-1.5" />
                         <span className="sr-only">View notifications</span>
@@ -143,7 +175,7 @@ export default function Navbar() {
                             <span className="sr-only">Open user menu</span>
                             <img
                               className="h-8 w-8 rounded-full"
-                              src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSf2iT_RVKTKmXV6o_0BXyTN54g8bv7IPO6gg&s"
                               alt=""
                             />
                           </Menu.Button>

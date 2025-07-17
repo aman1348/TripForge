@@ -120,6 +120,7 @@ passport.deserializeUser(function (user, cb) {
     return cb(null, user);
   });
 });
+
 mongoose
   .connect(process.env.MONGO_URI)
   .then(() => {

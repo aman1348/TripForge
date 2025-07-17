@@ -18,7 +18,9 @@ import axios from 'axios';
                 'X-RapidAPI-Host': 'travel-advisor.p.rapidapi.com'
             }
         });
-
+        // console.log("response data type : ", type);
+        // console.log("response data : ", response.data);
+        
         return response.data
 
     } catch (error) {

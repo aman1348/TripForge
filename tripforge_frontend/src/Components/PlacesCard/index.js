@@ -20,12 +20,13 @@ const PlacesCard = ({ place, selected }) => {
 
 
     return (
-        <div id={place.location_id} >
-            <Card className="w-full max-w-[26rem] shadow-lg">
+        <div id={place.location_id}  className="m-1 p-1">
+            <Card className="w-full max-w-[33rem] shadow-lg p-2">
                 <CardHeader floated={false} color="blue-gray">
                     <img
                         src={place.photo ? place.photo.images.large.url : defaultResturant}
-                        alt="ui/ux review check"
+                        alt="No img"
+                        className="max-h-96 w-full "
                     />
                     <div className="to-bg-black-10 absolute inset-0 h-full w-full bg-gradient-to-tr from-transparent via-transparent to-black/60 " />
                     <div

@@ -1,4 +1,4 @@
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Map from "../../Components/Map";
 import PlacesList from "../../Components/PlacesList";
 import { getPlaces, } from "../../api";
@@ -23,7 +23,7 @@ export default function Hero() {
   const [places, setPlaces] = useState([]);
   // const [weatherData, setWeatherData] = useState({});
   const [filteredPlaces, setFilteredPlaces] = useState([]);
-  
+
   const [childClicked, setChildClicked] = useState(null);
 
   const [isLoading, SetIsLoading] = useState(false);
@@ -31,19 +31,27 @@ export default function Hero() {
   const [type, setType] = useState("Restaurants");
   const [rating, setRating] = useState("rating");
 
-
   const [bounds, setBounds] = useState({});
+  const coords = useSelector(
+    (state) => state.TripCoordinateReducer.tripCoordinate
+  )
+
 
   // use effect to set initial coordinates to users location
 
   useEffect(() => {
-    navigator.geolocation.getCurrentPosition(({ coords }) => {
-      // setCoordinates({ lat: coords.latitude, lng: coords.longitude });
-      dispatch(
-        setTripCoordinates({ lat: coords.latitude, lng: coords.longitude })
-      );
-      // cord = { lat: coords.latitude, lng: coords.longitude };
-    });
+    if (coords.lat === 0 && coords.lng === 0) {
+      console.log("changing location to user location");
+      
+      navigator.geolocation.getCurrentPosition(({ coords }) => {
+        // setCoordinates({ lat: coords.latitude, lng: coords.longitude });
+        dispatch(
+          setTripCoordinates({ lat: coords.latitude, lng: coords.longitude })
+        );
+        // cord = { lat: coords.latitude, lng: coords.longitude };
+      });
+    }
+
   }, []);
 
   // use effect to filter places by rating
@@ -92,30 +100,30 @@ export default function Hero() {
   return (
     <>
 
-    <Navbar ></Navbar>
-    <div className="flex flex-row">
-      <div className="flex flex-col md:flex-row w-full">
-        <PlacesList
-          places={filteredPlaces.length ? filteredPlaces : places}
-          childClicked={childClicked}
-          isLoading={isLoading}
-          type={type}
-          setType={setType}
-          rating={rating}
-          setRating={setRating}
-        ></PlacesList>
-        {/* <TripList></TripList> */}
-        <div className="column-3 w-full md:w-7/12 h-full sticky top-0 z-10 overflow-auto">
-          <Map
-            setBounds={setBounds}
+      <Navbar ></Navbar>
+      <div className="flex flex-row">
+        <div className="flex flex-col md:flex-row w-full">
+          <PlacesList
             places={filteredPlaces.length ? filteredPlaces : places}
-            setChildClicked={setChildClicked}
-          // weatherData={weatherData}
-          ></Map>
-          {/* <div style={{ height: "90vh", width: "100%" }}></div> */}
+            childClicked={childClicked}
+            isLoading={isLoading}
+            type={type}
+            setType={setType}
+            rating={rating}
+            setRating={setRating}
+          ></PlacesList>
+          {/* <TripList></TripList> */}
+          <div className="column-3 w-full md:w-8/12 h-full sticky top-0 z-10 overflow-auto">
+            <Map
+              setBounds={setBounds}
+              places={filteredPlaces.length ? filteredPlaces : places}
+              setChildClicked={setChildClicked}
+            // weatherData={weatherData}
+            ></Map>
+            {/* <div style={{ height: "90vh", width: "100%" }}></div> */}
+          </div>
         </div>
       </div>
-    </div>
     </>
   );
 }

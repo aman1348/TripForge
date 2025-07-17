@@ -39,11 +39,11 @@ export default function PlacesList({
     return (
         <>
             <div className="column-2 w-full md:w-5/12 h-full max-h-screen">
-                <Typography variant="h3">Restaurants, Hotels & Attractions around you.</Typography>
+            {/* Restaurants, Hotels & Attractions */}
+                <Typography variant="h3">{type} around you.</Typography>
                 {/* loading spinners : */}
                 {/* <Spinner className="h-16 w-16 text-gray-900/50"></Spinner> */}
                 {/* <div class="border-gray-300 h-20 w-20 animate-spin rounded-full border-8 border-t-blue-600" /> */}
-
                 {
                     isLoading ? (
                         <Spinner className="h-16 w-16 text-gray-900/50"></Spinner>
@@ -64,14 +64,8 @@ export default function PlacesList({
                                         setSelectedItem={setRating}
                                     ></MenuCustomList>
                                 </div>
-                                <div className="overflow-y-auto" style={{ maxHeight: "calc(100% - 80px)" }}>
-                                    <div className="flex flex-col">
-                                        
-
-
-
-
-
+                                <div className="overflow-y-auto pl-3" style={{ maxHeight: "calc(100% - 80px)" }}>
+                                    <div className="flex flex-col">                                 
                                         {places?.map((place, i) => (
                                                 <PlacesCard
                                                     key={i}

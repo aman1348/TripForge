@@ -5,7 +5,9 @@ const userSchema = Schema({
 
   email: { type: String, required: true, unique: true },
   password: { type: Buffer, required: true },
-  salt : Buffer
+  salt : Buffer,
+  otp: { type: String},
+  otpExpiry: {type: Date}
 });
 
 const virtual = userSchema.virtual("id");

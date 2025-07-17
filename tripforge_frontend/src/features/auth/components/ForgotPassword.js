@@ -1,18 +1,39 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch} from "react-redux";
 import { Navigate } from "react-router-dom";
+import { getOtpAsync } from "../authSlice";
 function ForgotPassword() {
   const {register, handleSubmit, watch, formState : {error}} = useForm();
+  const dispatch = useDispatch();
+  // const otp_res = useSelector((state) => state.auth)
+  const submit = async (data) => 
+    {
+        console.log("data is ", data);
+        const response = await dispatch(
+          getOtpAsync({
+            email: data.email,
+          })
+        );
+        if(response?.meta?.requestStatus === "fulfilled") {
+          console.log("email Sent");
+          
+        }
+        else {
+          console.log(response?.payload?.err?.message);
+          
+        }
+    }
+  
   return (
     <>
       
       <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
           <img
-            className="mx-auto h-10 w-auto"
-            src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
+            className="mx-auto h-12 w-auto"
+            src="https://i0.wp.com/tripforgeai.com/wp-content/uploads/2025/06/tripforgeai-logo-square.png?fit=300%2C300&ssl=1"
             alt="Your Company"
           />
           <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
@@ -23,11 +44,7 @@ function ForgotPassword() {
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
           <form noValidate className="space-y-6" 
           onSubmit={
-            handleSubmit((data) => 
-            {
-                console.log("data is ", data);
-                
-            })}>
+            handleSubmit(submit)}>
             <div>
               <label
                 htmlFor="email"

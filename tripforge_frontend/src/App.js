@@ -63,7 +63,7 @@ function App() {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(checkAuthAsync());
-  }, dispatch)
+  }, [dispatch])
   // const user = useSelector(selectLoggedInUser);
   // const checkedUser = useSelector(selectUserChecked);
   // // console.log('checked user is ', checkedUser);
