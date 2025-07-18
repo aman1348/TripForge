@@ -1,6 +1,9 @@
+// const url_prefix = "http://localhost:5000"
+const url_prefix = ""
+
 export function createUserInfo(userData) {
   return new Promise(async (resolve) => {
-    const response = await fetch("http://localhost:5000/userInfo/add-info", {
+    const response = await fetch(`${url_prefix}/userInfo/add-info`, {
       method: "POST",
       body: JSON.stringify(userData),
       headers: { "content-type": "application/json" },
@@ -12,7 +15,7 @@ export function createUserInfo(userData) {
 
 export function updateUserInfo(userData) {
   return new Promise(async (resolve) => {
-    const response = await fetch("http://localhost:5000/userInfo/updateUser", {
+    const response = await fetch(`${url_prefix}/userInfo/updateUser`, {
       method: "PUT",
       body: JSON.stringify(userData),
       headers: { "content-type": "application/json" },
@@ -23,9 +26,20 @@ export function updateUserInfo(userData) {
 }
 
 export function getUserInfo(email) {
-  return new Promise(async (resolve) => {
-    const response = await fetch(`http://localhost:5000/userInfo/${email}`);
-    const data = await response.json();
-    resolve({ data });
+  return new Promise(async (resolve, reject) => {
+    try {
+      
+      const response = await fetch(`${url_prefix}/userInfo/${email}`);
+      const data = await response.json();
+      if(response.ok) {
+        resolve({ data });
+      }
+      else {
+        reject({data})
+      }
+    }
+    catch(err) {
+      reject({err})
+    }
   });
 }

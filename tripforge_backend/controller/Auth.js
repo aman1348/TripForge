@@ -8,11 +8,15 @@ const SECRET_KEY = "SECRET_KEY";
 
 
 module.exports.createUser = async (req, res, next) => {
-  const user = new User(req.body);
-  const myuser = await User.find({ email: user.email });
-
+  console.log("inside create user: ", req.body);
+  
+  // const user = new User(req.body);
+  const myuser = await User.findOne({ email: req.body.email });
+  console.log("my user: ", myuser);
+  // console.log("my already exixts : ", myuser !== null || myuser?.length != 0);
+  
   try {
-    if (myuser.length != 0) {
+    if (myuser !== null) {
       throw new Error("user already registered")
     }
 
@@ -24,9 +28,10 @@ module.exports.createUser = async (req, res, next) => {
       32,
       "sha256",
       async function (err, hashedPassword) {
-        const user = new User({ ...req.body, password: hashedPassword, salt });
+        console.log("inside async function");
+        const user = new User({ email: req.body.email, password: hashedPassword, salt });
         const doc = await user.save();
-
+        console.log("user saved");
         req.login({ id: doc.id }, (err) => {
           if (err) res.status(400).json(err);
           else {
@@ -119,12 +124,13 @@ module.exports.verify_otp = async (req, res) => {
     const { email, otp } = req.body;
 
     const user = await User.findOne({ email });
-    if (!user || user.otp !== otp || Date.now() > user.otpExpiry) {
+    
+    if (!user || user.otp !== otp || Date.now() > user.otpExpiry || otp.length != 6) {
       return res.status(400).json({ message: 'Invalid or expired OTP' });
     }
 
     // Clear OTP 
-    user.otp = undefined;
+    user.otp = "";
     user.otpExpiry = undefined;
     await user.save();
 

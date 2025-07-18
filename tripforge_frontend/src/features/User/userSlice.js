@@ -30,6 +30,7 @@ export const updateUserInfoAsync = createAsyncThunk(
 export const getUserInfoAsync = createAsyncThunk(
     'user/getUserInfo',
     async (email) => {
+        
         const response = await getUserInfo(email);
         return response.data;
     }
@@ -63,6 +64,11 @@ export const userSlice = createSlice({
                 state.status = 'idle';
                 // state.userInfo = action.payload;
                 state.userDetails = action.payload[0];
+            })
+            .addCase(getUserInfoAsync.rejected, (state, action) => {
+                state.status = 'idle';
+                // state.userInfo = action.payload;
+                
             })
 
     }

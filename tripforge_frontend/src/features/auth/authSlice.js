@@ -3,6 +3,8 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { createUser, loginUser, signOut, checkAuth, get_otp, verifyOTP, updatePassword } from "./authAPI";
 import { getUserInfoAsync } from "../User/userSlice";
 
+// const url_prefix = "http://localhost:5000"
+const url_prefix = ""
 
 const initialState = {
     loggedInUser: null,
@@ -113,12 +115,14 @@ export const authSlice = createSlice({
                 }
                 else {
                     state.loggedInUser = action.payload;
-
-                    fetch("http://localhost:5000/userInfo/add-info", {
+                    
+                    fetch(`${url_prefix}/userInfo/add-info`, {
                         method: "POST",
                         body: JSON.stringify({ email: action.payload.email }),
                         headers: { "content-type": "application/json" },
                     });
+                    
+                    getUserInfoAsync({ email: action.payload.email });
                 }
 
             })

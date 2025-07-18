@@ -2,7 +2,7 @@ const UserInfo = require('../models/UserInfo');
 
 module.exports.createUserInfo = async (req, res, next) => {
     const newUserInfo = new UserInfo(req.body);
-    console.log("inserting user  : ", req.body);
+    // console.log("inserting user  : ", req.body);
 
     try {
         const doc = await newUserInfo.save();
@@ -33,7 +33,7 @@ module.exports.updateUserInfo = async (req, res, next) => {
 
 module.exports.getUserInfo = async (req, res, next) => {
     const { email } = req.params;
-    // console.log('id is ',id);
+    console.log('get user info email is ',email);
     try {
         const currUserInfo = await UserInfo.find({ email: email });
         console.log('currentUserInfo', currUserInfo);

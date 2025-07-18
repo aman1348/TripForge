@@ -6,7 +6,7 @@ const userSchema = Schema({
   email: { type: String, required: true, unique: true },
   password: { type: Buffer, required: true },
   salt : Buffer,
-  otp: { type: String},
+  otp: { type: String, default: undefined },
   otpExpiry: {type: Date}
 });
 

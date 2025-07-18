@@ -47,7 +47,7 @@ function Signup() {
                   ...register('email', {
                     required: "email is required",
                     pattern: {
-                      value: '/\b[\w\.-]+@[\w\.-]+\.\w{2,4}\b/gi',
+                      value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
                       message: 'email is not valid',
                     },
                   })

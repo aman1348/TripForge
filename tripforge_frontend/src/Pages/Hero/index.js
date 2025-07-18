@@ -41,7 +41,6 @@ export default function Hero() {
 
   useEffect(() => {
     if (coords.lat === 0 && coords.lng === 0) {
-      console.log("changing location to user location");
       
       navigator.geolocation.getCurrentPosition(({ coords }) => {
         // setCoordinates({ lat: coords.latitude, lng: coords.longitude });
