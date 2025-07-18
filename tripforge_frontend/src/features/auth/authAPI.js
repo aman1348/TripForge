@@ -1,6 +1,8 @@
+const url_prefix = "http://localhost:5000"
+
 export function createUser(userData) {
   return new Promise(async (resolve) => {
-    const response = await fetch("http://localhost:5000/users/signup-user", {
+    const response = await fetch("/users/signup-user", {
       method: "POST",
       body: JSON.stringify(userData),
       headers: { "content-type": "application/json" },
@@ -14,7 +16,7 @@ export function createUser(userData) {
 export function loginUser(loginInfo) {
   return new Promise(async (resolve, reject) => {
     try {
-      const response = await fetch("http://localhost:5000/users/login-user", {
+      const response = await fetch("/users/login-user", {
         method: "POST",
         body: JSON.stringify(loginInfo),
         headers: { "content-type": "application/json" },
@@ -37,7 +39,7 @@ export function loginUser(loginInfo) {
 export function verifyOTP(userInfo) {
   return new Promise(async (resolve, reject) => {
     try {      
-      const response = await fetch("http://localhost:5000/users/verify-otp", {
+      const response = await fetch("/users/verify-otp", {
         method: "POST",
         body: JSON.stringify(userInfo),
         headers: { "content-type": "application/json" },
@@ -61,7 +63,7 @@ export function updatePassword(userInfo) {
   return new Promise(async (resolve, reject) => {
     try {
       
-      const response = await fetch("http://localhost:5000/users/reset-password", {
+      const response = await fetch("/users/reset-password", {
         method: "POST",
         body: JSON.stringify(userInfo),
         headers: { "content-type": "application/json" },
@@ -84,7 +86,7 @@ export function updatePassword(userInfo) {
 export function get_otp(user_data) {
   return new Promise(async (resolve, reject) => {
     try {
-      const response = await fetch("http://localhost:5000/users/request-otp", {
+      const response = await fetch("/users/request-otp", {
         method: "POST",
         body: JSON.stringify(user_data),
         headers: { "content-type": "application/json" },
@@ -108,7 +110,7 @@ export function get_otp(user_data) {
 export function checkAuth() {
   return new Promise(async (resolve, reject) => {
     try {
-      const response = await fetch("http://localhost:5000/users/check");
+      const response = await fetch("/users/check");
       if (response.ok) {
 
         const data = await response.json();
