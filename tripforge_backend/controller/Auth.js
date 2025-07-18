@@ -25,10 +25,8 @@ module.exports.createUser = async (req, res, next) => {
       "sha256",
       async function (err, hashedPassword) {
         const user = new User({ ...req.body, password: hashedPassword, salt });
-        // console.log(user);
         const doc = await user.save();
 
-        // console.log(doc);
         req.login({ id: doc.id }, (err) => {
           if (err) res.status(400).json(err);
           else {
@@ -46,7 +44,6 @@ module.exports.createUser = async (req, res, next) => {
     );
 
   } catch (err) {
-    console.log("throwing error in create user")
     res.status(400).json(err);
   }
 };
@@ -63,7 +60,6 @@ module.exports.createUser = async (req, res, next) => {
 
 module.exports.loginUser = async (req, res, next) => {
   const user = new User(req.body);
-  // console.log("user : ", user);
   res
     .cookie("jwt", req.user.token, {
       expires: new Date(Date.now() + 3600000),
@@ -84,7 +80,6 @@ module.exports.checkAuth = async (req, res, next) => {
 module.exports.request_otp = async (req, res) => {
   try {
     const { email } = req.body;
-    console.log("inside request otp email : ", email);
 
 
     const user = await User.findOne({ email });
@@ -97,7 +92,6 @@ module.exports.request_otp = async (req, res) => {
     user.otp = otp;
     user.otpExpiry = otpExpiry;
     await user.save();
-    console.log("sending email to : ", email);
     // Send OTP via email
     const transporter = nodemailer.createTransport({
       service: 'Gmail',
@@ -116,14 +110,12 @@ module.exports.request_otp = async (req, res) => {
     res.json({ message: 'OTP sent to your email' });
   }
   catch (error) {
-    console.log("got an error : ", error);
     res.status(400).json({ message: "couldn't send opt" });
   }
 };
 
 module.exports.verify_otp = async (req, res) => {
   try {
-    console.log("verify otp req body : ", req.body);
     const { email, otp } = req.body;
 
     const user = await User.findOne({ email });
@@ -145,7 +137,6 @@ module.exports.verify_otp = async (req, res) => {
     });
   }
   catch (error) {
-    console.log("got an error while otp verification : ", error);
     res.status(400).json({ message: "otp verification failed" });
   }
 };
@@ -157,7 +148,6 @@ module.exports.updatePassword = async (req, res) => {
     // Verify the token and extract user ID
     const decoded = jwt.verify(token, SECRET_KEY);
     const email = decoded.email;
-    console.log("decoded : ", decoded);
 
 
     const user = await User.findOne({ email });

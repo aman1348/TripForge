@@ -16,21 +16,17 @@ function UpdatePassword() {
   const navigate = useNavigate();
   // const otp_res = useSelector((state) => state.auth)
   const submit = async (data) => {
-    console.log("password is ", data);
-    console.log("token : ", token.token);
     if(data.password !== data.confirm_password) {
       setDifferent_inputs(true);
       return;
     }
-    const response = await dispatch(
+    await dispatch(
       updatePasswordAsync({
         password: data.password,
         token: token.token
       })
     );
-    console.log("update password response : ", response);
     navigate('/login');
-
   }
 
   return (

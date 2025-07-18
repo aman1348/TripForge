@@ -3,18 +3,13 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { verifyOTPAsync } from "../authSlice";
 import { useDispatch } from "react-redux";
-// import { Navigate } from "react-router-dom";
-// import { getOtpAsync } from "../authSlice";
 function OTP() {
   const { register, handleSubmit, watch, formState: { errors } } = useForm();
   const location = useLocation();
   const email = location.state || {};
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  // const otp_res = useSelector((state) => state.auth)
   const submit = async (data) => {
-    console.log("otp is ", data);
-    console.log("email : ", email);
     if(data.otp.length !== 6) {
       console.warn("invalid otp");
       return;
@@ -25,10 +20,8 @@ function OTP() {
         email: email.email
       })
     );
-    console.log("verification response : ", response.payload.token);
     
     if(response?.meta?.requestStatus === "fulfilled") {
-      console.log("otp verified");
       navigate('/update-password', {
         state: {
           token: response.payload.token,
@@ -36,7 +29,6 @@ function OTP() {
       });
     }
     else {
-      console.log(response?.payload?.err?.message);
       console.warn("inavlid OTP!");      
     }
   }

@@ -7,9 +7,7 @@ function ForgotPassword() {
   const { register, handleSubmit, watch, formState: { errors } } = useForm();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  // const otp_res = useSelector((state) => state.auth)
   const submit = (data) => {
-    console.log("data is ", data);
     dispatch(
       getOtpAsync({
         email: data.email,

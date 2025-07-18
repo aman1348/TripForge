@@ -82,7 +82,6 @@ export const checkAuthAsync = createAsyncThunk(
             const response = await checkAuth();
             return response.data;
         } catch (error) {
-            // console.log(error);
         }
     }
 )

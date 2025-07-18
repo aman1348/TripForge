@@ -1,6 +1,6 @@
 export function createUser(userData) {
   return new Promise(async (resolve) => {
-    const response = await fetch("http://localhost:5000/users/signup", {
+    const response = await fetch("http://localhost:5000/users/signup-user", {
       method: "POST",
       body: JSON.stringify(userData),
       headers: { "content-type": "application/json" },
@@ -14,7 +14,7 @@ export function createUser(userData) {
 export function loginUser(loginInfo) {
   return new Promise(async (resolve, reject) => {
     try {
-      const response = await fetch("http://localhost:5000/users/login", {
+      const response = await fetch("http://localhost:5000/users/login-user", {
         method: "POST",
         body: JSON.stringify(loginInfo),
         headers: { "content-type": "application/json" },
@@ -36,9 +36,7 @@ export function loginUser(loginInfo) {
 
 export function verifyOTP(userInfo) {
   return new Promise(async (resolve, reject) => {
-    try {
-      console.log("verify otp request : ", userInfo);
-      
+    try {      
       const response = await fetch("http://localhost:5000/users/verify-otp", {
         method: "POST",
         body: JSON.stringify(userInfo),
@@ -62,7 +60,6 @@ export function verifyOTP(userInfo) {
 export function updatePassword(userInfo) {
   return new Promise(async (resolve, reject) => {
     try {
-      console.log("update Password request : ", userInfo);
       
       const response = await fetch("http://localhost:5000/users/reset-password", {
         method: "POST",
@@ -87,7 +84,6 @@ export function updatePassword(userInfo) {
 export function get_otp(user_data) {
   return new Promise(async (resolve, reject) => {
     try {
-      console.log("sending request to get otp");
       const response = await fetch("http://localhost:5000/users/request-otp", {
         method: "POST",
         body: JSON.stringify(user_data),

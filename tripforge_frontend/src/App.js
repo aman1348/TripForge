@@ -76,7 +76,6 @@ function App() {
   }, [dispatch])
   // const user = useSelector(selectLoggedInUser);
   // const checkedUser = useSelector(selectUserChecked);
-  // // console.log('checked user is ', checkedUser);
   return (
     <div>
       <RouterProvider router={router} />

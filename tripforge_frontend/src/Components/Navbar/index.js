@@ -25,7 +25,7 @@ export default function Navbar() {
   const dispatch = useDispatch();
   const isUserLoggedin = useSelector(selectLoggedInUser);
   const navigate = useNavigate();
-
+  let skip = false;
 
 
   const onLoad = (autoC) => (setAutocomplete(autoC));
@@ -34,8 +34,6 @@ export default function Navbar() {
     try {
       const lat = autocomplete.getPlace().geometry.location.lat();
       const lng = autocomplete.getPlace().geometry.location.lng();
-      // setCoordinates({ lat: lat, lng: lng });
-      console.log("address : ", autocomplete.getPlace().formatted_address);
 
       dispatch(setTripCoordinates({ lat: lat, lng: lng }));
       navigate("/book-trip");
@@ -48,23 +46,30 @@ export default function Navbar() {
 
   useEffect(() => {
     try {
-      const input = inputRef.current;
-      const handleKeyDown = (e) => {
-        if (e.key === "Enter") {
-          // simulate ArrowDown to select first suggestion
-          const downArrow = new KeyboardEvent("keydown", {
-            key: "ArrowDown",
-            code: "ArrowDown",
-            keyCode: 40,
-            which: 40,
-            bubbles: true,
-          });
-          input.dispatchEvent(downArrow);
-        }
-      };
+      if (!skip) {
+        const input = inputRef.current;
+        const handleKeyDown = (e) => {
+          if (e.key === "ArrowDown") {
+            // eslint-disable-next-line react-hooks/exhaustive-deps
+            skip = true;
+          }
+          if (e.key === "Enter") {
+            // simulate ArrowDown to select first suggestion
+            const downArrow = new KeyboardEvent("keydown", {
+              key: "ArrowDown",
+              code: "ArrowDown",
+              keyCode: 40,
+              which: 40,
+              bubbles: true,
+            });
+            input.dispatchEvent(downArrow);
+          }
+        };
 
-      input.addEventListener("keydown", handleKeyDown);
-      return () => input.removeEventListener("keydown", handleKeyDown);
+        input.addEventListener("keydown", handleKeyDown);
+        return () => input.removeEventListener("keydown", handleKeyDown);
+      }
+
     }
     catch (e) {
 
